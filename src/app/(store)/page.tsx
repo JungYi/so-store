@@ -1,5 +1,6 @@
 import Header from '@/components/Header';
 import Link from 'next/link';
+import Image from 'next/image';
 
 export default function StoreHome() {
   // Temporary mock list
@@ -20,7 +21,19 @@ export default function StoreHome() {
               href={`/product/${p.id}`}
               className="block border p-3 hover:opacity-90"
             >
-              <div className="aspect-square bg-gray-100" />
+              <div className="aspect-square flex items-center justify-center bg-gray-100">
+              {/* <div className="aspect-square relative bg-gray-100"> */}
+                <Image
+                  src={`/products/${p.id}.webp`}
+                  alt={p.name}
+                  //fill
+                  width={200}
+                  height={200}
+                  className="object-cover"
+                  sizes="(max-width: 768px) 50vw, (max-width: 1200px) 33vw, 25vw"
+                />
+              </div>
+              
               <div className="mt-2 flex items-center justify-between text-sm">
                 <span className="truncate">{p.name}</span>
                 <span>${p.price}</span>
