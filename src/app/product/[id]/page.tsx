@@ -3,6 +3,7 @@
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
+import { useParams } from 'next/navigation';
 
 import Header from '@/components/Header';
 import { useCartStore } from '@/lib/store/cart';
@@ -17,17 +18,22 @@ type FetchState =
 export default function ProductDetail() {
   const [state, setState] = useState<FetchState>({ status: 'idle' });
   const add = useCartStore((s) => s.add);
+  const params = useParams<{ id: string }>();
+  const id = params?.id;
 
   useEffect(() => {
+    if (!id) {
+      setState({ status: 'notfound' });
+      return;
+    }
+
     const controller = new AbortController();
 
     async function run(): Promise<void> {
       try {
         setState({ status: 'loading' });
-        const path = window.location.pathname.split('/'); // ['', 'products', ':id']
-        const id = path[path.length - 1];
 
-        const res = await fetch(`/api/products/${id}`, {
+        const res = await fetch(`/api/products/${encodeURIComponent(id)}`, {
           cache: 'no-store',
           signal: controller.signal,
         });
@@ -51,12 +57,11 @@ export default function ProductDetail() {
 
     void run();
     return () => controller.abort();
-  }, []);
+  }, [id]);
 
   const handleAdd = (): void => {
     if (state.status !== 'success') return;
     const p = state.data;
-    // 기본 사이즈는 데모용으로 'M'
     add({ id: p.id, name: p.name, price: p.price, size: 'M' }, 1);
   };
 

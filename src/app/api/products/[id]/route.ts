@@ -8,7 +8,8 @@ export async function GET(_req: Request, ctx: { params: Promise<Params> }) {
   const { id } = await ctx.params;
 
   const list = products as unknown as Product[];
-  const item = list.find((p) => p.id === id);
+  const key = id.toLowerCase();
+  const item = list.find((p) => p.id.toLowerCase() === key);
 
   if (!item) {
     return NextResponse.json({ message: 'Not found' }, { status: 404 });
