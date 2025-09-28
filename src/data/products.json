@@ -1,0 +1,23 @@
+[
+  { "id": "SO-01", "name": "Mock Tee", "price": 39, "image": "/products/so-01.webp", "sizes": ["S", "M", "L"] },
+  { "id": "SO-02", "name": "Mock Hoodie", "price": 79, "image": "/products/so-02.webp", "sizes": ["S", "M", "L"] },
+  { "id": "SO-03", "name": "Mock Cap", "price": 29, "image": "/products/so-03.webp", "sizes": ["S", "M", "L"] },
+  { "id": "SO-04", "name": "Mock Tee", "price": 39, "image": "/products/so-04.webp", "sizes": ["S", "M", "L"] },
+  { "id": "SO-05", "name": "Mock Hoodie", "price": 79, "image": "/products/so-05.webp", "sizes": ["S", "M", "L"] },
+  { "id": "SO-06", "name": "Mock Cap", "price": 29, "image": "/products/so-06.webp", "sizes": ["S", "M", "L"] },
+  { "id": "SO-07", "name": "Mock Tee", "price": 39, "image": "/products/so-07.webp", "sizes": ["S", "M", "L"] },
+  { "id": "SO-08", "name": "Mock Hoodie", "price": 79, "image": "/products/so-08.webp", "sizes": ["S", "M", "L"] },
+  { "id": "SO-09", "name": "Mock Cap", "price": 29, "image": "/products/so-09.webp", "sizes": ["S", "M", "L"] },
+  { "id": "SO-10", "name": "Mock Tee", "price": 39, "image": "/products/so-10.webp", "sizes": ["S", "M", "L"] },
+  { "id": "SO-11", "name": "Mock Tee", "price": 39, "image": "/products/so-11.webp", "sizes": ["S", "M", "L"] },
+  { "id": "SO-12", "name": "Mock Hoodie", "price": 79, "image": "/products/so-12.webp", "sizes": ["S", "M", "L"] },
+  { "id": "SO-13", "name": "Mock Cap", "price": 29, "image": "/products/so-13.webp", "sizes": ["S", "M", "L"] },
+  { "id": "SO-14", "name": "Mock Hoodie", "price": 79, "image": "/products/so-14.webp", "sizes": ["S", "M", "L"] },
+  { "id": "SO-15", "name": "Mock Cap", "price": 29, "image": "/products/so-15.webp", "sizes": ["S", "M", "L"] },
+  { "id": "SO-16", "name": "Mock Tee", "price": 39, "image": "/products/so-16.webp", "sizes": ["S", "M", "L"] },
+  { "id": "SO-17", "name": "Mock Hoodie", "price": 79, "image": "/products/so-17.webp", "sizes": ["S", "M", "L"] },
+  { "id": "SO-18", "name": "Mock Cap", "price": 29, "image": "/products/so-18.webp", "sizes": ["S", "M", "L"] },
+  { "id": "SO-19", "name": "Mock Tee", "price": 39, "image": "/products/so-19.webp", "sizes": ["S", "M", "L"] },
+  { "id": "SO-20", "name": "Mock Hoodie", "price": 79, "image": "/products/so-20.webp", "sizes": ["S", "M", "L"] },
+  { "id": "SO-21", "name": "Mock Cap", "price": 29, "image": "/products/so-21.webp", "sizes": ["S", "M", "L"] }
+]

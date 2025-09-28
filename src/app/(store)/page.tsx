@@ -1,14 +1,19 @@
 import Header from '@/components/Header';
 import Link from 'next/link';
 import Image from 'next/image';
+import { getBaseUrl } from '@/lib/base-url';
+import type { Product } from '@/types/product';
 
-export default function StoreHome() {
-  // Temporary mock list
-  const products = [
-    { id: 'SO-01', name: 'Mock Tee', price: 39 },
-    { id: 'SO-02', name: 'Mock Hoodie', price: 79 },
-    { id: 'SO-03', name: 'Mock Cap', price: 29 },
-  ];
+export const dynamic = 'force-dynamic';
+
+async function getProducts(): Promise<Product[]> {
+  const res = await fetch(`${getBaseUrl()}/api/products`, { cache: 'no-store' });
+  if (!res.ok) throw new Error('Failed to load products');
+  return res.json();
+}
+
+export default async function StoreHome() {
+  const products = await getProducts();
 
   return (
     <main>
@@ -16,21 +21,14 @@ export default function StoreHome() {
       <section className="p-4">
         <div className="grid grid-cols-2 gap-4 md:grid-cols-3">
           {products.map((p) => (
-            <Link
-              key={p.id}
-              href={`/product/${p.id}`}
-              className="block border p-3 hover:opacity-90"
-            >
+            <Link key={p.id} href={`/product/${p.id}`} className="block border p-3 hover:opacity-90">
               <div className="aspect-square flex items-center justify-center bg-gray-100">
-              {/* <div className="aspect-square relative bg-gray-100"> */}
                 <Image
-                  src={`/products/${p.id}.webp`}
+                  src={p.image}
                   alt={p.name}
-                  //fill
-                  width={200}
-                  height={200}
-                  className="object-cover"
-                  sizes="(max-width: 768px) 50vw, (max-width: 1200px) 33vw, 25vw"
+                  width={1200}
+                  height={1200}
+                  className="object-contain w-1/2 h-1/2"
                 />
               </div>
               
