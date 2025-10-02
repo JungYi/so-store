@@ -17,6 +17,7 @@ type FetchState =
 
 export default function ProductDetail() {
   const [state, setState] = useState<FetchState>({ status: 'idle' });
+  const [size, setSize] = useState<string | null>(null);
   const add = useCartStore((s) => s.add);
   const params = useParams<{ id: string }>();
   const id = params?.id;
@@ -49,6 +50,7 @@ export default function ProductDetail() {
 
         const data: Product = await res.json();
         setState({ status: 'success', data });
+        setSize(data.sizes?.[0] ?? null);
       } catch (err) {
         if ((err as Error).name === 'AbortError') return;
         setState({ status: 'error', message: 'Network error occurred.' });
@@ -60,9 +62,39 @@ export default function ProductDetail() {
   }, [id]);
 
   const handleAdd = (): void => {
-    if (state.status !== 'success') return;
+    if (state.status !== 'success' || !size) return;
     const p = state.data;
-    add({ id: p.id, name: p.name, price: p.price, size: 'M' }, 1);
+    add({ id: p.id, name: p.name, price: p.price, size }, 1);
+  };
+
+  const renderSizes = (sizes: string[]) => {
+    if (!sizes.length) return null;
+    return (
+      <div className="mt-4">
+        <div className="mb-2 text-xs text-gray-600">
+          {size ? `Size: ${size}` : 'Select size'}
+        </div>
+        <div className="grid grid-cols-4 gap-2">
+          {sizes.map((s) => {
+            const selected = size === s;
+            const cls =
+              'border px-3 py-2 text-sm text-center focus:outline-none focus:ring cursor-pointer ' +
+              (selected ? 'bg-black text-white' : 'bg-white hover:bg-gray-100');
+            return (
+              <button
+                key={s}
+                type="button"
+                className={cls}
+                aria-pressed={selected}
+                onClick={() => setSize(s)}
+              >
+                {s}
+              </button>
+            );
+          })}
+        </div>
+      </div>
+    );
   };
 
   return (
@@ -83,8 +115,8 @@ export default function ProductDetail() {
       {state.status === 'error' && (
         <section className="p-6 text-center">
           <p className="text-sm text-red-600">{state.message}</p>
-          <Link href="/products" className="mt-4 inline-block underline">
-            Back to products
+          <Link href="/" className="mt-4 inline-block underline">
+            Back to store
           </Link>
         </section>
       )}
@@ -92,8 +124,8 @@ export default function ProductDetail() {
       {state.status === 'notfound' && (
         <section className="p-6 text-center">
           <p className="text-sm">Product not found.</p>
-          <Link href="/products" className="mt-4 inline-block underline">
-            Back to products
+          <Link href="/" className="mt-4 inline-block underline">
+            Back to store
           </Link>
         </section>
       )}
@@ -116,13 +148,16 @@ export default function ProductDetail() {
             <p className="mt-1 text-sm text-gray-600">{state.data.id}</p>
             <p className="mt-2 text-lg">${state.data.price}</p>
 
+            {renderSizes(state.data.sizes ?? ['S', 'M', 'L'])}
+
             <button
               type="button"
               onClick={handleAdd}
-              className="mt-4 w-full bg-black px-4 py-2 text-white cursor-pointer hover:opacity-90 focus:outline-none focus:ring"
+              disabled={!size}
+              className="mt-4 w-full bg-black px-4 py-2 text-white disabled:opacity-50 cursor-pointer hover:opacity-90 focus:outline-none focus:ring"
               aria-label="Add to cart"
             >
-              Add to cart
+              {size ? 'Add to cart' : 'Select size to add'}
             </button>
 
             <Link
