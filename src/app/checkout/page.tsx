@@ -1,12 +1,21 @@
 'use client';
 
+import { useEffect, useState } from 'react';
 import Header from '@/components/Header';
 import { useCartStore } from '@/lib/store/cart';
-import { useState } from 'react';
 
 export default function CheckoutPage() {
   const total = useCartStore((s) => s.subtotal());
+  const [mounted, setMounted] = useState(false);
   const [submitted, setSubmitted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  if (!mounted) {
+    return <main />;
+  }
 
   return (
     <main>

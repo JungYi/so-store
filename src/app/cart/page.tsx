@@ -1,10 +1,21 @@
 'use client';
 
+import { useEffect, useState } from 'react';
+import Link from 'next/link';
 import Header from '@/components/Header';
 import { useCartStore } from '@/lib/store/cart';
 
 export default function CartPage() {
+  const [mounted, setMounted] = useState(false);
   const { items, updateQty, remove, subtotal } = useCartStore();
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  if (!mounted) {
+    return <main />;
+  }
 
   return (
     <main>
@@ -47,6 +58,14 @@ export default function CartPage() {
           <span className="text-sm">Subtotal</span>
           <span className="text-sm font-semibold">${subtotal()}</span>
         </div>
+        {items.length > 0 ? (
+          <Link
+            href="/checkout"
+            className="mt-4 block w-full bg-black px-4 py-2 text-center text-sm text-white hover:opacity-90 focus:outline-none focus:ring"
+          >
+            Checkout
+          </Link>
+        ) : null}
       </section>
     </main>
   );
