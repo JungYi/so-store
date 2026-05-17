@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect, useState } from 'react';
+import Link from 'next/link';
 import Header from '@/components/Header';
 import { useCartStore } from '@/lib/store/cart';
 
@@ -37,6 +38,12 @@ export default function CheckoutPage() {
           <button type="submit" className="w-full bg-black px-4 py-2 text-white">
             Pay (Mock)
           </button>
+          <Link
+            href="/cart"
+            className="block text-center text-sm text-gray-600 underline hover:text-black focus:outline-none focus:ring"
+          >
+            Back to cart
+          </Link>
           {submitted ? <p className="text-sm text-green-600">Order placed (demo).</p> : null}
         </form>
 
