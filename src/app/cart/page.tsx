@@ -46,7 +46,7 @@ export default function CartPage() {
                   <button
                     type="button"
                     onClick={() => remove(it.id, it.size)}
-                    className="self-start text-sm underline sm:self-auto"
+                    className="self-start cursor-pointer text-sm underline sm:self-auto"
                   >
                     Remove
                   </button>
@@ -59,7 +59,13 @@ export default function CartPage() {
           <span className="text-sm">Subtotal</span>
           <span className="text-sm font-semibold">${subtotal()}</span>
         </div>
-        <div className="mt-4 flex flex-col gap-3 sm:flex-row-reverse sm:items-center sm:justify-between">
+        <div className="mt-4 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+          <Link
+            href="/"
+            className="text-center text-sm text-gray-600 underline hover:text-black focus:outline-none focus:ring sm:text-left"
+          >
+            Back to store
+          </Link>
           {items.length > 0 ? (
             <Link
               href="/checkout"
@@ -68,12 +74,6 @@ export default function CartPage() {
               Checkout
             </Link>
           ) : null}
-          <Link
-            href="/"
-            className="text-center text-sm text-gray-600 underline hover:text-black focus:outline-none focus:ring"
-          >
-            Back to store
-          </Link>
         </div>
       </section>
     </main>
