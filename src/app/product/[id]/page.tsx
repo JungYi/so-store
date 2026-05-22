@@ -18,6 +18,7 @@ type FetchState =
 export default function ProductDetail() {
   const [state, setState] = useState<FetchState>({ status: 'idle' });
   const [size, setSize] = useState<string | null>(null);
+  const [added, setAdded] = useState(false);
   const add = useCartStore((s) => s.add);
   const params = useParams<{ id: string }>();
   const id = params?.id;
@@ -33,6 +34,7 @@ export default function ProductDetail() {
     async function run(): Promise<void> {
       try {
         setState({ status: 'loading' });
+        setAdded(false);
 
         const res = await fetch(`/api/products/${encodeURIComponent(id)}`, {
           cache: 'no-store',
@@ -65,6 +67,14 @@ export default function ProductDetail() {
     if (state.status !== 'success' || !size) return;
     const p = state.data;
     add({ id: p.id, name: p.name, price: p.price, size }, 1);
+    setAdded(true);
+  };
+
+  const handleSizeSelect = (nextSize: string): void => {
+    if (nextSize !== size) {
+      setAdded(false);
+    }
+    setSize(nextSize);
   };
 
   const renderSizes = (sizes: string[]) => {
@@ -86,7 +96,7 @@ export default function ProductDetail() {
                 type="button"
                 className={cls}
                 aria-pressed={selected}
-                onClick={() => setSize(s)}
+                onClick={() => handleSizeSelect(s)}
               >
                 {s}
               </button>
@@ -157,15 +167,17 @@ export default function ProductDetail() {
               className="mt-4 w-full bg-black px-4 py-2 text-white disabled:opacity-50 cursor-pointer hover:opacity-90 focus:outline-none focus:ring"
               aria-label="Add to cart"
             >
-              {size ? 'Add to cart' : 'Select size to add'}
+              {added ? 'Add another' : size ? 'Add to cart' : 'Select size to add'}
             </button>
 
-            <Link
-              href="/"
-              className="mt-3 inline-block text-sm text-gray-600 underline"
-            >
-              Back to store
-            </Link>
+            {added ? (
+              <p className="mt-2 text-sm text-gray-600" aria-live="polite">
+                Added to cart.{' '}
+                <Link href="/cart" className="underline hover:text-black">
+                  View cart
+                </Link>
+              </p>
+            ) : null}
           </div>
         </section>
       )}
