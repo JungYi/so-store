@@ -2,12 +2,14 @@
 
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 import Header from '@/components/Header';
 import { useCartStore } from '@/lib/store/cart';
 
 export default function CartPage() {
   const [mounted, setMounted] = useState(false);
   const { items, updateQty, remove, subtotal } = useCartStore();
+  const router = useRouter();
 
   useEffect(() => {
     setMounted(true);
@@ -16,6 +18,15 @@ export default function CartPage() {
   if (!mounted) {
     return <main />;
   }
+
+  const handleBack = (): void => {
+    if (window.history.length > 1) {
+      router.back();
+      return;
+    }
+
+    router.push('/');
+  };
 
   return (
     <main>
@@ -60,12 +71,14 @@ export default function CartPage() {
           <span className="text-sm font-semibold">${subtotal()}</span>
         </div>
         <div className="mt-4 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
-          <Link
-            href="/"
-            className="text-center text-sm text-gray-600 underline hover:text-black focus:outline-none focus:ring sm:text-left"
+          <button
+            type="button"
+            onClick={handleBack}
+            className="cursor-pointer text-center text-sm text-gray-600 underline hover:text-black focus:outline-none focus:ring sm:text-left"
+            aria-label="Go back"
           >
-            Back to store
-          </Link>
+            Back
+          </button>
           {items.length > 0 ? (
             <Link
               href="/checkout"
